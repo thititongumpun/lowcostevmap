@@ -46,6 +46,8 @@ export default function Home() {
         >
           LIFF Documentation
         </a>
+        {liffObject?.isLoggedIn() ? <p>yes</p>: <p>no</p>}
+        {liffObject?.isLoggedIn()}<button onClick={() => liffObject?.login()}>login</button>
       </main>
     </div>
   );
