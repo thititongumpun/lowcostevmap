@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Liff } from "@line/liff";
 
 import {
   FullscreenControl,
   GeolocateControl,
   Map,
+  MapRef,
   Marker,
   NavigationControl,
   Popup,
@@ -17,22 +18,39 @@ import UserLocationMarker from "@/components/user-location-marker";
 import { useFetchStations } from "@/hooks/useFetchStations";
 import Pin from "@/components/pin";
 import { Result } from "@/types/EvStation";
+import NavigateButton from "@/components/navigate-button";
+import ControlPanel from "@/components/control-panel";
 
 export default function Home() {
   const [liffObject, setLiffObject] = useState<Liff | null>(null);
   const [liffError, setLiffError] = useState<string | null>(null);
   const [profile, setProfile] = useState<string | null>(null);
   const [popupInfo, setPopupInfo] = useState<Result>();
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [isPinging, setIsPinging] = useState(false);
   const { isLoading, userLocation, heading } = useGeolocation();
   const { evStations } = useFetchStations({
     latitude: userLocation?.coords.latitude,
     longitude: userLocation?.coords.longitude,
   });
 
-  console.log(evStations);
+  const mapRef = useRef<MapRef>(null);
+  const onSelectStation = useCallback(
+    (
+      { longitude, latitude }: { longitude: number; latitude: number },
+      index: number
+    ) => {
+      setSelectedIndex(index);
+      setIsPinging(true);
+      mapRef.current?.flyTo({ center: [longitude, latitude], duration: 2000 });
+      setTimeout(() => {
+        setIsPinging(false);
+      }, 3000);
+    },
+    []
+  );
 
-  console.log(liffError);
-  console.log(profile);
+  console.log(liffError, profile);
 
   // Execute liff.init() when the app is initialized
   useEffect(() => {
@@ -88,13 +106,13 @@ export default function Home() {
           }}
         >
           <Pin
-            // isSelected={selectedIndex === index}
-            // isPinging={isPinging && selectedIndex === index}
+            isSelected={selectedIndex === index}
+            isPinging={isPinging && selectedIndex === index}
             providerName={station.poi.name}
           />
         </Marker>
       )),
-    [evStations]
+    [evStations, isPinging, selectedIndex]
   );
 
   if (isLoading) {
@@ -107,6 +125,7 @@ export default function Home() {
 
   return (
     <Map
+      ref={mapRef}
       initialViewState={{
         latitude: userLocation?.coords.latitude,
         longitude: userLocation?.coords.longitude,
@@ -136,6 +155,12 @@ export default function Home() {
       <NavigationControl position="top-left" />
       <ScaleControl position="top-left" />
 
+      <ControlPanel
+        evStations={evStations}
+        onSelectStation={onSelectStation}
+        selectedIndex={selectedIndex}
+        isPinging={isPinging}
+      />
       {/* Render pins */}
       {pins}
 
@@ -190,10 +215,10 @@ export default function Home() {
               </p>
             </div>
 
-            {/* <NaviageteButton
+            <NavigateButton
               lat={popupInfo.position.lat}
               lon={popupInfo.position.lon}
-            /> */}
+            />
           </div>
         </Popup>
       )}
