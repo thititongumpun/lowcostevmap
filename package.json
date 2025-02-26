@@ -11,10 +11,15 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.12.0",
+    "@heroui/button": "^2.2.13",
+    "@heroui/react": "^2.7.2",
     "@line/liff": "2.25.1",
+    "framer-motion": "^12.4.7",
     "next": "15.1.7",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "mapbox-gl": "^2.0.0",
+    "react-map-gl": "^7.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
