@@ -6,6 +6,15 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [liffObject, setLiffObject] = useState<Liff | null>(null);
   const [liffError, setLiffError] = useState<string | null>(null);
+  const [profile, setProfile] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function getProfile() {
+      const profile = await liffObject?.getProfile();
+      setProfile(profile?.displayName as string);
+    }
+    getProfile();
+  }, [liffObject]);
 
   // Execute liff.init() when the app is initialized
   useEffect(() => {
@@ -46,8 +55,10 @@ export default function Home() {
         >
           LIFF Documentation
         </a>
-        {liffObject?.isLoggedIn() ? <p>yes</p>: <p>no</p>}
-        {liffObject?.isLoggedIn()}<button onClick={() => liffObject?.login()}>login</button>
+        {liffObject?.isLoggedIn() ? <p>yes</p> : <p>no</p>}
+        {liffObject?.isLoggedIn()}
+        <button onClick={() => liffObject?.login()}>login</button>
+        {profile}
       </main>
     </div>
   );
