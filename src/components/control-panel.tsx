@@ -47,7 +47,7 @@ export default function ControlPanel({
 
   return (
     <>
-      <Button color="primary" onPress={onOpen} className="absolute right-4 top-4 z-20">
+      <Button color="primary" size="sm" onPress={onOpen} className="absolute right-4 bottom-10 z-20">
         <Menu className="w-4 h-4"/>
       </Button>
 

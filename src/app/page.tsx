@@ -20,6 +20,10 @@ import Pin from "@/components/pin";
 import { Result } from "@/types/EvStation";
 import NavigateButton from "@/components/navigate-button";
 import ControlPanel from "@/components/control-panel";
+import {
+  MapboxStyleDefinition,
+  MapboxStyleSwitcherControl
+} from "mapbox-gl-style-switcher";
 
 export default function Home() {
   const [liffObject, setLiffObject] = useState<Liff | null>(null);
@@ -84,6 +88,32 @@ export default function Home() {
     }
     getProfile();
   }, [liffObject]);
+
+  useEffect(() => {
+    const styles: MapboxStyleDefinition[] = [
+      {
+        title: "Streets",
+        uri: "mapbox://styles/mapbox/streets-v12",
+      },
+      {
+        title: "Dark",
+        uri: "mapbox://styles/mapbox/dark-v11",
+      },
+      {
+        title: "Light",
+        uri: "mapbox://styles/mapbox/light-v11",
+      },
+      {
+        title: "Outdoor",
+        uri: "mapbox://styles/mapbox/outdoors-v12",
+      },
+      {
+        title: "Satellite",
+        uri: "mapbox://styles/mapbox/satellite-v9",
+      },
+    ];
+    mapRef.current?.addControl(new MapboxStyleSwitcherControl(styles, "Streets"));
+  }, []);
 
   const pins = useMemo(
     () =>
