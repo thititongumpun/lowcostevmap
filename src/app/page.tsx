@@ -87,9 +87,7 @@ export default function Home() {
       console.log(idToken); // print decoded idToken object
     }
     getProfile();
-  }, [liffObject]);
 
-  useEffect(() => {
     const styles: MapboxStyleDefinition[] = [
       {
         title: "Streets",
@@ -112,8 +110,9 @@ export default function Home() {
         uri: "mapbox://styles/mapbox/satellite-v9",
       },
     ];
-    mapRef.current?.addControl(new MapboxStyleSwitcherControl(styles, "Streets"));
-  }, []);
+
+    mapRef.current?.addControl(new MapboxStyleSwitcherControl(styles));
+  }, [liffObject]);
 
   const pins = useMemo(
     () =>
@@ -126,13 +125,13 @@ export default function Home() {
           onClick={(e) => {
             e.originalEvent.stopPropagation();
             setPopupInfo(station);
-            // onSelectStation(
-            //   {
-            //     longitude: station.position.lon,
-            //     latitude: station.position.lat,
-            //   },
-            //   index
-            // );
+            onSelectStation(
+              {
+                longitude: station.position.lon,
+                latitude: station.position.lat,
+              },
+              index
+            );
           }}
         >
           <Pin
@@ -142,7 +141,7 @@ export default function Home() {
           />
         </Marker>
       )),
-    [evStations, isPinging, selectedIndex]
+    [evStations, isPinging, onSelectStation, selectedIndex]
   );
 
   if (isLoading) {
