@@ -22,8 +22,9 @@ import NavigateButton from "@/components/navigate-button";
 import ControlPanel from "@/components/control-panel";
 import {
   MapboxStyleDefinition,
-  MapboxStyleSwitcherControl
+  MapboxStyleSwitcherControl,
 } from "mapbox-gl-style-switcher";
+import MapLoader from "@/components/map-loader";
 
 export default function Home() {
   const [liffObject, setLiffObject] = useState<Liff | null>(null);
@@ -94,12 +95,12 @@ export default function Home() {
         uri: "mapbox://styles/mapbox/streets-v12",
       },
       {
-        title: "Dark",
-        uri: "mapbox://styles/mapbox/dark-v11",
+        title: "Night",
+        uri: "mapbox://styles/mapbox/navigation-night-v1",
       },
       {
-        title: "Light",
-        uri: "mapbox://styles/mapbox/light-v11",
+        title: "Day",
+        uri: "mapbox://styles/mapbox/navigation-day-v1",
       },
       {
         title: "Outdoor",
@@ -145,7 +146,7 @@ export default function Home() {
   );
 
   if (isLoading) {
-    return <p>loading...</p>;
+    return <MapLoader />
   }
 
   // if (!liffObject?.isLoggedIn()) {

@@ -1,7 +1,7 @@
 "use client";
 
-import { MapPin, Navigation2 } from "lucide-react";
-import { Marker, Popup } from "react-map-gl";
+import { Navigation2 } from "lucide-react";
+import { Marker } from "react-map-gl";
 
 type UserLocationMarker = {
   latitude: number | undefined;
@@ -36,26 +36,6 @@ export default function UserLocationMarker({
           />
         </div>
       </div>
-
-      {/* Popup with location info */}
-      <Popup
-        latitude={latitude}
-        longitude={longitude}
-        closeButton={true}
-        closeOnClick={false}
-        anchor="top"
-        offset={[0, 10]}
-      >
-        <div className="rounded-md bg-white px-2 py-1 shadow-sm">
-          <div className="flex items-center gap-1 text-sm font-medium text-gray-700">
-            <MapPin className="h-4 w-4 text-blue-500" />
-            <span>Current Location</span>
-          </div>
-          <div className="mt-1 text-xs text-gray-500">
-            {latitude.toFixed(6)}, {longitude.toFixed(6)}
-          </div>
-        </div>
-      </Popup>
     </Marker>
   );
 }

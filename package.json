@@ -17,6 +17,7 @@
     "@heroui/radio": "^2.3.12",
     "@heroui/react": "^2.7.2",
     "@heroui/scroll-shadow": "^2.3.9",
+    "@heroui/spinner": "^2.2.10",
     "@line/liff": "2.25.1",
     "framer-motion": "^12.4.7",
     "lucide-react": "^0.476.0",
