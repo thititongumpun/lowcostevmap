@@ -146,7 +146,7 @@ export default function Home() {
   );
 
   if (isLoading) {
-    return <MapLoader />
+    return <MapLoader />;
   }
 
   // if (!liffObject?.isLoggedIn()) {
